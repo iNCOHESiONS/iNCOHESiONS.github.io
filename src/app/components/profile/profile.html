@@ -1,0 +1,112 @@
+<div class="flex flex-1 w-full min-w-0 gap-4">
+    <div class="flex flex-col gap-4">
+        <div class="relative inline-block max-w-40">
+            <div
+                class="p-0.5 border-2 rounded-lg"
+                style:border-color="var(--text-color)"
+            >
+                <img
+                    src="./favicon.ico"
+                    alt="Profile Picture"
+                    class="min-w-full aspect-square rounded-sm"
+                />
+            </div>
+
+            <span
+                class="absolute bottom-0 right-0 whitespace-nowrap splash-text"
+            >
+                {{ splash }}
+            </span>
+        </div>
+
+        <div class="flex flex-col pl-4 gap-2">
+            <h1>Links!</h1>
+
+            <ul>
+                @for (link of links; track link.name) {
+                    <li>
+                        <a
+                            [href]="link.url"
+                            target="_blank"
+                            class="flex gap-2 items-center hover:underline"
+                        >
+                            <img
+                                [src]="link.favicon"
+                                [alt]="link.name"
+                                [attr.style]="
+                                    link.filter
+                                        ? `filter: ${link.filter}`
+                                        : null
+                                "
+                                class="h-4 aspect-square object-scale-down"
+                            />
+                            <span>{{ link.name }}</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="flex flex-col pl-4 gap-2">
+            <h1>Friends!</h1>
+
+            <ul>
+                @for (friend of friends; track friend.name) {
+                    <li>
+                        <a
+                            [href]="friend.url"
+                            target="_blank"
+                            class="inline-block"
+                        >
+                            <img
+                                [src]="friend.img"
+                                [alt]="friend.name"
+                                class="block"
+                            />
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <h1 class="mb-2">iNCOHESiONS (mari/cohe)</h1>
+
+        <p>Programmer (mostly Web Development)</p>
+        <p>Employed (surprisingly)</p>
+        <p>Transgender</p>
+        <p>Brazilian</p>
+        <p>Bisexual</p>
+        <p>Bilingual (pt-br/en)</p>
+        <p>Bipedal</p>
+
+        <div class="mt-4">
+            <spinning-fish />
+        </div>
+    </div>
+
+    <div>
+        <h1 class="mb-2">Languages</h1>
+
+        <ul class="pl-2">
+            @for (lang of languages; track lang.id) {
+                <li>
+                    <div class="flex gap-2 items-center">
+                        <img
+                            [src]="getLanguageLogo(lang.id)"
+                            [alt]="lang.name"
+                            [attr.style]="
+                                lang.filter ? `filter: ${lang.filter}` : null
+                            "
+                            class="h-4 aspect-square"
+                        />
+
+                        <p>{{ lang.name }}</p>
+                    </div>
+                </li>
+            }
+            <li>...and more!</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+@keyframes splash {
+    0% {
+        transform: translate(calc(50% - 2rem), -1rem) rotate(-45deg) scale(1);
+    }
+    50% {
+        transform: translate(calc(50% - 2rem), -1rem) rotate(-45deg)
+            scale(1.175);
+    }
+    100% {
+        transform: translate(calc(50% - 2rem), -1rem) rotate(-45deg) scale(1);
+    }
+}
+
+.splash-text {
+    font-family: "Mojangles";
+    color: rgb(255, 255, 85);
+    transform-origin: center;
+    animation: splash 1s infinite;
+    pointer-events: none;
+    text-align: center;
+    text-shadow: 2px 2px 0px black;
+}
+
+h1 {
+    font-size: 24pt;
+}
+
+p,
+span {
+    font-size: 22pt;
+}

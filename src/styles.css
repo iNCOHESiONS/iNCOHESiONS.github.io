@@ -1,3 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+* {
+    font-family: "Inconsolata", monospace;
+
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none; /* future-proof */
+
+    font-size: 24pt;
+
+    --bg-color: #f5f5f5;
+    --text-color: #0d1017;
+    --invert-icon: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    * {
+        --bg-color: #0d1017;
+        --text-color: #dff1ff;
+        --invert-icon: 1;
+    }
+}
+
+@font-face {
+    font-family: "Mojangles";
+    src: url("/fonts/mojangles.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
