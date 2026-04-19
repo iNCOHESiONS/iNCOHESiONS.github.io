@@ -86,6 +86,8 @@ export class Profile implements OnInit {
     }
 
     isMobile() {
+        if (!isPlatformBrowser(this.platformId)) return true;
+
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
             navigator.userAgent,
         );
