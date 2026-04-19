@@ -41,8 +41,8 @@ class Particle {
         public pos: Point,
         public vel: Point = new Point(0, 0),
         public acc: Point = new Point(
+            (Math.random() * 2 - 1) * 1.5,
             (Math.random() * 2 - 1) * 2,
-            (Math.random() * 2 - 1) * 3,
         ),
         private lifetime = initialLifetime,
         private size = Point.fromSingle(Math.random() * 5 + 5),
@@ -105,7 +105,7 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
     private frameCount = 0;
 
     private mousePos = new Point(0, 0);
-    private hasMouseMoved = false;
+    private shouldRender = false;
 
     constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -124,15 +124,15 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
         const animate = () => {
             this.animationId = requestAnimationFrame(animate);
 
-            context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-            if (this.hasMouseMoved && this.frameCount % 2 === 0) {
+            if (this.shouldRender && this.frameCount % 2 === 0) {
                 this.particles.push(
-                    new Particle(
-                        new Point(this.mousePos.x - 3, this.mousePos.y - 5),
-                    ),
+                    new Particle(new Point(this.mousePos.x, this.mousePos.y)),
                 );
             }
+
+            if (this.particles.length === 0) return;
+
+            context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             for (const particle of this.particles.reverse()) {
                 particle.update();
@@ -158,11 +158,19 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
     @HostListener("window:mousemove", ["$event"])
     onMouseMove(event: MouseEvent) {
         this.mousePos = new Point(event.clientX, event.clientY);
-        this.hasMouseMoved = true;
     }
 
-    @HostListener("window:resize", ["$event"])
-    onWindowResize(_: WindowEventMap["resize"]) {
+    @HostListener("window:mouseover", ["$event"])
+    onMouseOver(event: MouseEvent) {
+        if (!event.target) return;
+
+        this.shouldRender =
+            window.getComputedStyle(event.target as Element).cursor ===
+            "pointer";
+    }
+
+    @HostListener("window:resize")
+    onWindowResize() {
         this.updateCanvasSize();
     }
 
