@@ -17,19 +17,15 @@
                     "builder": "@angular/build:application",
                     "options": {
                         "browser": "src/main.ts",
+                        "server": "src/main.server.ts",
                         "tsConfig": "tsconfig.app.json",
+                        "styles": ["src/reset.css", "src/styles.css"],
                         "assets": [
                             {
                                 "glob": "**/*",
                                 "input": "public"
                             }
-                        ],
-                        "styles": ["src/styles.css"],
-                        "server": "src/main.server.ts",
-                        "prerender": true,
-                        "security": {
-                            "allowedHosts": []
-                        }
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -45,12 +41,20 @@
                                     "maximumError": "8kB"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "baseHref": "/",
+                            "outputMode": "server",
+                            "ssr": {
+                                "entry": "src/main.server.ts"
+                            },
+                            "optimization": true,
+                            "sourceMap": false
                         },
                         "development": {
                             "optimization": false,
                             "extractLicenses": false,
-                            "sourceMap": true
+                            "sourceMap": true,
+                            "verbose": true
                         }
                     },
                     "defaultConfiguration": "production"
@@ -66,41 +70,6 @@
                         }
                     },
                     "defaultConfiguration": "development"
-                },
-                "server": {
-                    "builder": "@angular-devkit/build-angular:server",
-                    "options": {
-                        "outputPath": "dist/portfolio/server",
-                        "main": "src/main.server.ts",
-                        "tsConfig": "tsconfig.server.json"
-                    },
-                    "configurations": {
-                        "production": {
-                            "sourceMap": false,
-                            "optimization": true,
-                            "buildOptimizer": true,
-                            "extractLicenses": true
-                        }
-                    },
-                    "defaultConfiguration": "production"
-                },
-                "prerender": {
-                    "builder": "@angular-devkit/build-angular:prerender",
-                    "options": {
-                        "browserTarget": "portfolio:build",
-                        "serverTarget": "portfolio:server",
-                        "routes": ["/"]
-                    },
-                    "configurations": {
-                        "production": {
-                            "browserTarget": "portfolio:build:production",
-                            "serverTarget": "portfolio:server:production"
-                        }
-                    },
-                    "defaultConfiguration": "production"
-                },
-                "deploy": {
-                    "builder": "angular-cli-ghpages:deploy"
                 }
             }
         }

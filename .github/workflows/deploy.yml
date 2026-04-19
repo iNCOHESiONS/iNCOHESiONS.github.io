@@ -22,14 +22,14 @@ jobs:
             - name: Setup Node
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 22
                   cache: "pnpm"
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
             - name: Build (SSG prerender)
-              run: pnpm exec ng run portfolio:prerender
+              run: pnpm exec ng run portfolio:build
 
             - name: Add 404 fallback
               run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
