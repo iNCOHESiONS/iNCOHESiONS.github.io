@@ -76,4 +76,10 @@ export class Profile {
     getLanguageLogo(id: string) {
         return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${id}/${id}-original.svg`;
     }
+
+    isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
+            navigator.userAgent,
+        );
+    }
 }
