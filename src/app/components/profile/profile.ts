@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, Inject, OnInit, PLATFORM_ID } from "@angular/core";
+import { Component, Inject, PLATFORM_ID, signal } from "@angular/core";
 import { SpinningFish } from "../spinning-fish/spinning-fish";
 
 @Component({
@@ -9,23 +9,22 @@ import { SpinningFish } from "../spinning-fish/spinning-fish";
     styleUrl: "./profile.css",
     imports: [SpinningFish],
 })
-export class Profile implements OnInit {
-    splash: string = "";
+export class Profile {
+    splash = signal("Splash Text!");
 
     constructor(
         private http: HttpClient,
         @Inject(PLATFORM_ID) private platformId: Object,
-    ) {}
-
-    ngOnInit() {
+    ) {
         if (!isPlatformBrowser(this.platformId)) return;
 
         this.http
             .get("splashes.txt", { responseType: "text" })
             .subscribe((data) => {
                 const splashes = data.split("\n");
-                this.splash =
-                    splashes[Math.floor(Math.random() * splashes.length)];
+                this.splash.update(
+                    () => splashes[Math.floor(Math.random() * splashes.length)],
+                );
             });
     }
 
@@ -86,10 +85,11 @@ export class Profile implements OnInit {
     }
 
     isMobile() {
-        if (!isPlatformBrowser(this.platformId)) return true;
-
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
-            navigator.userAgent,
+        return (
+            !isPlatformBrowser(this.platformId) ||
+            /Android|webOS|iPhone|iP[ao]d|BlackBerry|IEMobile|Opera Mini|Mobile|CriOS/i.test(
+                navigator.userAgent,
+            )
         );
     }
 }

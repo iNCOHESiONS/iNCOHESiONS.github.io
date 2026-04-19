@@ -1,4 +1,4 @@
-<div class="flex flex-1 flex-wrap w-full min-w-0 gap-4 sm:justify-center">
+<div class="flex flex-1 flex-wrap w-full min-w-0 gap-4">
     <div class="flex flex-col gap-4">
         <div class="relative inline-block max-w-40">
             <div
@@ -8,18 +8,18 @@
                 <img
                     src="./favicon.ico"
                     alt="Profile Picture"
-                    class="min-w-full aspect-square rounded-sm"
+                    class="min-w-full aspect-square rounded-md"
                 />
             </div>
 
             <span
                 class="absolute bottom-0 right-0 whitespace-nowrap splash-text"
             >
-                {{ splash }}
+                {{ splash() }}
             </span>
         </div>
 
-        <div class="flex flex-col pl-4 gap-2">
+        <div class="flex flex-col md:pl-4 gap-2">
             <h1>Links!</h1>
 
             <ul>
@@ -47,7 +47,7 @@
             </ul>
         </div>
 
-        <div class="flex flex-col pl-4 gap-2">
+        <div class="flex flex-col md:pl-4 gap-2">
             <h1>Friends!</h1>
 
             <ul>
