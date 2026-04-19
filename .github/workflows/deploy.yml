@@ -29,7 +29,7 @@ jobs:
               run: pnpm install --frozen-lockfile
 
             - name: Build (SSG prerender)
-              run: ng run portfolio:prerender
+              run: pnpm exec ng run portfolio:prerender
 
             - name: Add 404 fallback
               run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
