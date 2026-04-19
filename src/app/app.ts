@@ -5,7 +5,6 @@ import { Profile } from "./components/profile/profile";
 @Component({
     selector: "app",
     templateUrl: "./app.html",
-    styleUrl: "./app.css",
     imports: [RouterOutlet, Profile],
 })
 export class App {}

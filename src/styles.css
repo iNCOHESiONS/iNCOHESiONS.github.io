@@ -28,3 +28,8 @@
     font-weight: normal;
     font-style: normal;
 }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
