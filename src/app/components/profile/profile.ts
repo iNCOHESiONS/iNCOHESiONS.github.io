@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, Inject, PLATFORM_ID, signal } from "@angular/core";
+import { Component, Inject, OnInit, PLATFORM_ID, signal } from "@angular/core";
 import { SpinningFish } from "../spinning-fish/spinning-fish";
 
 @Component({
@@ -9,13 +9,15 @@ import { SpinningFish } from "../spinning-fish/spinning-fish";
     styleUrl: "./profile.css",
     imports: [SpinningFish],
 })
-export class Profile {
-    splash = signal("Splash Text!");
+export class Profile implements OnInit {
+    splash = signal("");
 
     constructor(
         private http: HttpClient,
         @Inject(PLATFORM_ID) private platformId: Object,
-    ) {
+    ) {}
+
+    ngOnInit() {
         if (!isPlatformBrowser(this.platformId)) return;
 
         this.http
