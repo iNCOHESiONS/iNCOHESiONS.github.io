@@ -1,5 +1,6 @@
+import { isPlatformBrowser } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, Inject, OnInit, PLATFORM_ID } from "@angular/core";
 import { SpinningFish } from "../spinning-fish/spinning-fish";
 
 @Component({
@@ -8,10 +9,17 @@ import { SpinningFish } from "../spinning-fish/spinning-fish";
     styleUrl: "./profile.css",
     imports: [SpinningFish],
 })
-export class Profile {
+export class Profile implements OnInit {
     splash: string = "";
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        @Inject(PLATFORM_ID) private platformId: Object,
+    ) {}
+
+    ngOnInit() {
+        if (!isPlatformBrowser(this.platformId)) return;
+
         this.http
             .get("splashes.txt", { responseType: "text" })
             .subscribe((data) => {
