@@ -29,10 +29,12 @@ jobs:
               run: pnpm install --frozen-lockfile
 
             - name: Build (SSG prerender)
-              run: pnpm run prerender
-              continue-on-error: true
+              run: ng run portfolio:prerender
 
-            - name: Deploy to gh-pages
+            - name: Add 404 fallback
+              run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
+
+            - name: Deploy to Github Pages
               uses: JamesIves/github-pages-deploy-action@v4
               with:
                   folder: dist/portfolio/browser
