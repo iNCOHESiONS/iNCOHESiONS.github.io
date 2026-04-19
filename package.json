@@ -10,7 +10,6 @@
         "serve:ssr:portfolio": "node dist/portfolio/server/server.mjs"
     },
     "private": true,
-    "packageManager": "pnpm@10.6.5",
     "dependencies": {
         "@angular-eslint/eslint-plugin": "^21.3.1",
         "@angular-eslint/eslint-plugin-template": "^21.3.1",
