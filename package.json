@@ -1,6 +1,7 @@
 {
     "name": "portfolio",
     "version": "0.0.1",
+    "packageManager": "pnpm@10.6.5",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
@@ -9,7 +10,6 @@
         "prerender": "ng run portfolio:prerender",
         "serve:ssr:portfolio": "node dist/portfolio/server/server.mjs"
     },
-    "private": true,
     "dependencies": {
         "@angular-eslint/eslint-plugin": "^21.3.1",
         "@angular-eslint/eslint-plugin-template": "^21.3.1",
