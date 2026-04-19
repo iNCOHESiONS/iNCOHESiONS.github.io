@@ -1,4 +1,4 @@
-<div class="flex flex-1 flex-wrap w-full min-w-0 gap-4">
+<div class="flex flex-1 flex-wrap md:justify-center w-full min-w-0 gap-4">
     <div class="flex flex-col gap-4">
         <div class="relative inline-block max-w-40">
             <div
@@ -73,20 +73,24 @@
     </div>
 
     <div>
-        <h1 class="mb-2">iNCOHESiONS (mari/cohe)</h1>
+        <h1 class="lg:mb-2">iNCOHESiONS (mari/cohe)</h1>
 
-        <p>Programmer (mostly Web Development)</p>
-        <p>Employed (surprisingly)</p>
-        <p>Transgender</p>
-        <p>Brazilian</p>
-        <p>Bisexual</p>
-        <p>Bilingual (pt-br/en)</p>
-        <p>Bipedal</p>
+        <ul class="pl-2">
+            <li>Programmer (mostly Web Development)</li>
+            <li>Employed (surprisingly)</li>
+            <li>Transgender</li>
+            <li>Brazilian</li>
+            <li>Bisexual</li>
+            <li>Bilingual (pt-br/en)</li>
+            <li>Bipedal</li>
+        </ul>
 
-        @if (!isMobile()) {
-            <div class="mt-4">
-                <spinning-fish />
-            </div>
+        @defer {
+            @if (!isMobile()) {
+                <div class="mt-4">
+                    <spinning-fish />
+                </div>
+            }
         }
     </div>
 

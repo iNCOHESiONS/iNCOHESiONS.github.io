@@ -12,7 +12,7 @@
 }
 
 .splash-text {
-    font-family: "Mojangles";
+    font-family: "Mojangles", Arial, sans-serif;
     color: rgb(255, 255, 85);
     transform-origin: center;
     animation: splash 1s infinite;
