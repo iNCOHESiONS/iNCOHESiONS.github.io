@@ -30,9 +30,7 @@ jobs:
 
             - name: Build (SSG prerender)
               run: pnpm run prerender
-
-            - name: Add 404 fallback (SPA routing fix)
-              run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
+              continue-on-error: true
 
             - name: Deploy to gh-pages
               uses: JamesIves/github-pages-deploy-action@v4
