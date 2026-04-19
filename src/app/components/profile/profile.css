@@ -19,6 +19,7 @@
     pointer-events: none;
     text-align: center;
     text-shadow: 2px 2px 0px black;
+    user-select: none;
 }
 
 h1 {

@@ -13,6 +13,10 @@
     --invert-icon: 0;
 }
 
+img {
+    user-select: none;
+}
+
 ::selection {
     background-color: var(--text-color);
     color: var(--bg-color);
