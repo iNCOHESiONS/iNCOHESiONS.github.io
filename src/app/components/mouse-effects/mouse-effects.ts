@@ -9,7 +9,6 @@ import {
     PLATFORM_ID,
     ViewChild,
 } from "@angular/core";
-import { sleep } from "../../utils";
 
 class Point {
     constructor(
@@ -105,16 +104,13 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
     private animationId = 0;
     private frameCount = 0;
 
-    private x = 0;
-    private y = 0;
+    private mousePos = new Point(0, 0);
+    private hasMouseMoved = false;
 
     constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
     async ngAfterViewInit() {
         if (!isPlatformBrowser(this.platformId)) return;
-
-        // wait ultil the user has had a chance to move their mouse a little
-        await sleep(1000);
 
         this.canvas = this.canvasRef.nativeElement;
         this.updateCanvasSize();
@@ -130,9 +126,11 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
 
             context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-            if (this.frameCount % 2 === 0) {
+            if (this.hasMouseMoved && this.frameCount % 2 === 0) {
                 this.particles.push(
-                    new Particle(new Point(this.x - 3, this.y - 5)),
+                    new Particle(
+                        new Point(this.mousePos.x - 3, this.mousePos.y - 5),
+                    ),
                 );
             }
 
@@ -159,8 +157,8 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
 
     @HostListener("window:mousemove", ["$event"])
     onMouseMove(event: MouseEvent) {
-        this.x = event.clientX;
-        this.y = event.clientY;
+        this.mousePos = new Point(event.clientX, event.clientY);
+        this.hasMouseMoved = true;
     }
 
     @HostListener("window:resize", ["$event"])
