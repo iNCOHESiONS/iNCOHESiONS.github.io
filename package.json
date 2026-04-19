@@ -6,6 +6,7 @@
         "start": "ng serve",
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
+        "prerender": "ng run portfolio:prerender",
         "serve:ssr:portfolio": "node dist/portfolio/server/server.mjs"
     },
     "private": true,

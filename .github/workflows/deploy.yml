@@ -1,0 +1,43 @@
+name: Deploy Angular SSG
+
+on:
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: write
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 9
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "pnpm"
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build (SSG prerender)
+              run: pnpm run prerender -- --base-href=/
+
+            - name: Add 404 fallback (SPA routing fix)
+              run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
+
+            - name: Deploy to gh-pages
+              uses: JamesIves/github-pages-deploy-action@v4
+              with:
+                  folder: dist/portfolio/browser
+                  branch: gh-pages
