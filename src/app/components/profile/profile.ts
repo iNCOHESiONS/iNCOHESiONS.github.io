@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, Inject, OnInit, PLATFORM_ID, signal } from "@angular/core";
-import { isMobile } from "../../utils";
+import { Component, inject, OnInit, PLATFORM_ID, signal } from "@angular/core";
+import { choice, isMobile } from "../../utils";
 import { SpinningFish } from "../spinning-fish/spinning-fish";
 
 @Component({
@@ -11,24 +11,18 @@ import { SpinningFish } from "../spinning-fish/spinning-fish";
     imports: [SpinningFish],
 })
 export class Profile implements OnInit {
+    platformId = inject(PLATFORM_ID);
+    http = inject(HttpClient);
     splash = signal("");
-
-    constructor(
-        private http: HttpClient,
-        @Inject(PLATFORM_ID) private platformId: Object,
-    ) {}
 
     ngOnInit() {
         if (!isPlatformBrowser(this.platformId)) return;
 
         this.http
-            .get("splashes.txt", { responseType: "text" })
-            .subscribe((data) => {
-                const splashes = data.split("\n");
-                this.splash.update(
-                    () => splashes[Math.floor(Math.random() * splashes.length)],
-                );
-            });
+            .get("./text/splashes.txt", { responseType: "text" })
+            .subscribe((data) =>
+                this.splash.update(() => choice(data.split("\n"))),
+            );
     }
 
     friends: {

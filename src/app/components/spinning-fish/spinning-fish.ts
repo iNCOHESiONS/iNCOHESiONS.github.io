@@ -3,19 +3,25 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    Inject,
+    HostListener,
+    inject,
     Input,
     OnDestroy,
     PLATFORM_ID,
+    signal,
     ViewChild,
 } from "@angular/core";
 import type * as THREE from "three";
+import { lerp, Point } from "../../utils";
+
+const defaultZoom = 5.25;
 
 @Component({
     selector: "spinning-fish",
     template: `
         <div
             title="Model and texture by umar6419 at https://free3d.com/3d-model/tuna-fish-21843.html"
+            [class]="controlling() ? 'cursor-grabbing' : 'cursor-grab'"
             #container
         ></div>
     `,
@@ -27,10 +33,15 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
     @Input() width = 400;
     @Input() height = 200;
 
+    private platformId = inject(PLATFORM_ID);
+
     private cleanup = () => {};
     private animationId = 0;
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+    private mouseVel = Point.zero;
+    protected controlling = signal(false);
+
+    private targetZoom = defaultZoom;
 
     async ngAfterViewInit() {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -56,14 +67,24 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
             30,
         );
         camera.position.z = 3;
-        camera.zoom = 5;
+        camera.zoom = this.targetZoom;
         camera.updateProjectionMatrix();
 
         const renderer = new THREE.WebGLRenderer({
             alpha: true,
             antialias: true,
+            failIfMajorPerformanceCaveat: true,
         });
-        this.containerRef.nativeElement.appendChild(renderer.domElement);
+
+        if (!renderer.getContext()) {
+            throw new Error("Unable to get canvas rendering context");
+        }
+
+        const canvas = renderer.domElement;
+
+        canvas.onmousedown = () => this.controlling.update(() => true);
+
+        this.containerRef.nativeElement.appendChild(canvas);
 
         renderer.setClearColor(0, 0);
         renderer.setSize(this.width, this.height, true);
@@ -88,8 +109,25 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
 
         const animate = () => {
             this.animationId = requestAnimationFrame(animate);
-            fish.rotation.z += 0.01; // z up
+
+            if (this.controlling()) {
+                fish.rotation.x += this.mouseVel.y / 200;
+                fish.rotation.z -= this.mouseVel.x / 200;
+                this.targetZoom = 3;
+            } else {
+                fish.rotation.z += 0.01;
+                this.targetZoom = defaultZoom;
+            }
+
+            this.mouseVel = this.mouseVel.mul(0);
             renderer.render(scene, camera);
+
+            const nextZoom = lerp(camera.zoom, this.targetZoom, 0.1);
+
+            if (camera.zoom !== nextZoom) {
+                camera.zoom = nextZoom;
+                camera.updateProjectionMatrix();
+            }
         };
 
         animate();
@@ -107,6 +145,16 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.cleanup();
+    }
+
+    @HostListener("window:mousemove", ["$event"])
+    onMouseMove(event: MouseEvent) {
+        this.mouseVel = new Point(event.movementX, event.movementY);
+    }
+
+    @HostListener("window:mouseup")
+    onMouseUp() {
+        this.controlling.update(() => false);
     }
 
     /* from: https://discourse.threejs.org/t/disposing-loaded-model/53735 */
