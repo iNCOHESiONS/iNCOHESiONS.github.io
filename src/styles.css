@@ -1,25 +1,24 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: "Mojangles";
+    src: url("/fonts/mojangles.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
-    font-family: "Inconsolata", monospace;
-
-    -webkit-user-drag: none;
-    user-drag: none; /* future-proof */
-
-    font-size: 24pt;
-
     --bg-color: #f5f5f5;
     --text-color: #0d1017;
     --invert-icon: 0;
-}
 
-img {
-    user-select: none;
-}
+    font-family: "Inconsolata", monospace;
+    font-size: 22pt;
 
-::selection {
-    background-color: var(--text-color);
-    color: var(--bg-color);
+    outline-color: var(--text-color);
+
+    -webkit-user-drag: none;
+    user-drag: none; /* future-proof */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,13 +29,6 @@ img {
     }
 }
 
-@font-face {
-    font-family: "Mojangles";
-    src: url("/fonts/mojangles.otf") format("opentype");
-    font-weight: normal;
-    font-style: normal;
-}
-
 body {
     margin: 0px;
     padding: 0px;
@@ -44,4 +36,17 @@ body {
 
     background-color: var(--bg-color);
     color: var(--text-color);
+}
+
+img {
+    user-select: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+::selection {
+    background-color: var(--text-color);
+    color: var(--bg-color);
 }

@@ -12,21 +12,12 @@
 }
 
 .splash-text {
-    font-family: "Mojangles", Arial, sans-serif;
-    color: rgb(255, 255, 85);
-    transform-origin: center;
     animation: splash 1s infinite;
+    color: rgb(255, 255, 85);
+    font-family: "Mojangles", Arial, sans-serif;
     pointer-events: none;
     text-align: center;
     text-shadow: 2px 2px 0px black;
+    transform-origin: center;
     user-select: none;
-}
-
-h1 {
-    font-size: 24pt;
-}
-
-p,
-span {
-    font-size: 22pt;
 }

@@ -1,128 +1,65 @@
-<div class="flex flex-1 flex-wrap md:justify-center w-full min-w-0 gap-4">
-    <div class="flex flex-col gap-4">
-        <div class="relative inline-block max-w-40">
-            <div
-                class="p-0.5 border-2 rounded-lg"
-                style:border-color="var(--text-color)"
-            >
-                <img
-                    src="./favicon.ico"
-                    alt="Profile Picture"
-                    class="min-w-full aspect-square rounded-md"
-                />
+<div class="flex flex-1 flex-wrap min-w-0 gap-4">
+    <div class="flex flex-wrap flex-col md:flex-row md:justify-center gap-4">
+        <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col gap-4">
+                <div class="relative max-w-40 sm:max-md:left-1/2">
+                    <div class="p-0.5 border-2 rounded-lg">
+                        <img
+                            src="./favicon.ico"
+                            alt="Profile Picture"
+                            class="min-w-full aspect-square rounded-md"
+                        />
+                    </div>
+
+                    @defer {
+                        <span
+                            class="absolute bottom-0 right-0 whitespace-nowrap splash-text"
+                        >
+                            {{ splash() }}
+                        </span>
+                    }
+                </div>
+
+                <links />
+
+                <friends />
             </div>
 
+            <div>
+                <h1 class="lg:mb-2">iNCOHESiONS (mari/cohe)</h1>
+
+                <ul class="pl-2">
+                    <li>Programmer (mostly Web Development)</li>
+                    <li>Employed (surprisingly)</li>
+                    <li>Transgender</li>
+                    <li>Brazilian</li>
+                    <li>Bisexual</li>
+                    <li>Bilingual (pt-br/en)</li>
+                    <li>Bipedal</li>
+                </ul>
+
+                @if (!isMobile()) {
+                    @defer {
+                        <div>
+                            <spinning-fish />
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-16">
             @defer {
-                <span
-                    class="absolute bottom-0 right-0 whitespace-nowrap splash-text"
-                >
-                    {{ splash() }}
-                </span>
+                <projects />
             }
+
+            <languages />
         </div>
-
-        <div class="flex flex-col md:pl-4 gap-2">
-            <h1>Links!</h1>
-
-            <ul>
-                @for (link of links; track link.name) {
-                    <li>
-                        <a
-                            [href]="link.url"
-                            target="_blank"
-                            class="flex gap-2 items-center hover:underline"
-                        >
-                            <img
-                                [src]="link.favicon"
-                                [alt]="link.name"
-                                [attr.style]="
-                                    link.filter
-                                        ? `filter: ${link.filter}`
-                                        : null
-                                "
-                                class="h-4 aspect-square object-scale-down"
-                            />
-                            <span>{{ link.name }}</span>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-
-        <div class="flex flex-col md:pl-4 gap-2">
-            <h1>Friends!</h1>
-
-            <ul>
-                @for (friend of friends; track friend.name) {
-                    <li>
-                        <a
-                            [href]="friend.url"
-                            target="_blank"
-                            class="inline-block"
-                        >
-                            <img
-                                [src]="friend.img"
-                                [alt]="friend.name"
-                                class="block"
-                            />
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-
-    <div>
-        <h1 class="lg:mb-2">iNCOHESiONS (mari/cohe)</h1>
-
-        <ul class="pl-2">
-            <li>Programmer (mostly Web Development)</li>
-            <li>Employed (surprisingly)</li>
-            <li>Transgender</li>
-            <li>Brazilian</li>
-            <li>Bisexual</li>
-            <li>Bilingual (pt-br/en)</li>
-            <li>Bipedal</li>
-        </ul>
-
-        @defer {
-            @if (!isMobile()) {
-                <div class="mt-4">
-                    <spinning-fish />
-                </div>
-            }
-        }
-    </div>
-
-    <div>
-        <h1 class="mb-2">Languages</h1>
-
-        <ul class="pl-2">
-            @for (lang of languages; track lang.id) {
-                <li>
-                    <div class="flex gap-2 items-center">
-                        <img
-                            [src]="getLanguageLogo(lang.id)"
-                            [alt]="lang.name"
-                            [attr.style]="
-                                lang.filter ? `filter: ${lang.filter}` : null
-                            "
-                            class="h-4 aspect-square"
-                        />
-
-                        <p>{{ lang.name }}</p>
-                    </div>
-                </li>
-            }
-            <li>...and more!</li>
-        </ul>
     </div>
 
     @if (isMobile()) {
-        <div>
-            <div class="mt-4">
-                <spinning-fish />
-            </div>
-        </div>
+        @defer {
+            <spinning-fish />
+        }
     }
 </div>

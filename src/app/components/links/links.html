@@ -1,0 +1,25 @@
+<div class="flex flex-col md:pl-4 gap-2">
+    <h1>Links!</h1>
+
+    <ul>
+        @for (link of links; track link.name) {
+            <li>
+                <a
+                    [href]="link.url"
+                    target="_blank"
+                    class="flex gap-2 items-center"
+                >
+                    <img
+                        [src]="link.favicon"
+                        [alt]="link.name"
+                        [attr.style]="
+                            link.filter ? `filter: ${link.filter}` : null
+                        "
+                        class="h-4 aspect-square object-scale-down"
+                    />
+                    <span>{{ link.name }}</span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

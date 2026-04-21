@@ -8,7 +8,7 @@ export class Particle {
     constructor(
         public pos: Point,
         public vel: Point = Point.zero,
-        public acc: Point = Point.random().scale(new Point(1.5, -1.5)),
+        public acc: Point = Point.random().scale(new Point(1.5, -2.5)),
         private lifetime = initialLifetime,
         private color = [255, Math.random() * 128, Math.random() * 255],
         private size = minSize.add(Point.random().mul(5)),
