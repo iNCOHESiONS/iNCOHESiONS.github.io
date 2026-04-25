@@ -5,7 +5,12 @@
         @for (friend of friends; track friend.name) {
             <li>
                 <a [href]="friend.url" target="_blank" class="inline-block">
-                    <img [src]="friend.img" [alt]="friend.name" class="block" />
+                    <img
+                        [src]="friend.img"
+                        [alt]="friend.name"
+                        [attr.mouse-effect-color]="friend.mouseEffectColor"
+                        class="block"
+                    />
                 </a>
             </li>
         }

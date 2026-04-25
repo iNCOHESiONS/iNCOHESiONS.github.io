@@ -10,7 +10,7 @@ import {
     PLATFORM_ID,
     ViewChild,
 } from "@angular/core";
-import { Point } from "../../utils";
+import { Color, Point, random } from "../../utils";
 import { Particle } from "./particle";
 
 @Component({
@@ -34,7 +34,7 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
     private particles: Particle[] = [];
 
     private mousePos = Point.zero;
-    private shouldRender = false;
+    private particleColor?: Color = undefined;
     private frameCount = 0;
 
     private cleanup = () => {};
@@ -55,10 +55,14 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
         const animate = () => {
             this.animationId = requestAnimationFrame(animate);
 
-            if (this.shouldRender && this.frameCount % 2 === 0) {
-                this.particles.push(
-                    new Particle(new Point(this.mousePos.x, this.mousePos.y)),
+            if (this.particleColor && this.frameCount % 2 === 0) {
+                const particle = new Particle(
+                    new Point(this.mousePos.x, this.mousePos.y),
                 );
+                particle.color = this.particleColor
+                    .adjustLightness(random(-0.1, 0.1))
+                    .adjustChroma(random(-0.1, 0.1));
+                this.particles.push(particle);
             }
 
             if (this.particles.length === 0) return;
@@ -95,8 +99,16 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
     onMouseOver(target: EventTarget | null) {
         if (!target) return;
 
-        this.shouldRender =
-            window.getComputedStyle(target as Element).cursor === "pointer";
+        const color =
+            (target as Element).attributes.getNamedItem("mouse-effect-color")
+                ?.value ??
+            (window.getComputedStyle(target as Element).cursor === "pointer"
+                ? getComputedStyle(document.documentElement)
+                      .getPropertyValue("--text-color")
+                      .trim()
+                : undefined);
+
+        this.particleColor = color ? Color.fromHex(color) : undefined;
     }
 
     @HostListener("window:resize")

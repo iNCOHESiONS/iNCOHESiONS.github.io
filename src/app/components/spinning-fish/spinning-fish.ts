@@ -78,9 +78,14 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
             throw new Error("Unable to get canvas rendering context");
         }
 
+        const soundEffect = new Audio("./sounds/fish.mp3");
+
         const canvas = renderer.domElement;
 
-        canvas.onmousedown = () => this.controlling.update(() => true);
+        canvas.onmousedown = () => {
+            this.controlling.update(() => true);
+            soundEffect.play();
+        };
 
         this.containerRef.nativeElement.appendChild(canvas);
 

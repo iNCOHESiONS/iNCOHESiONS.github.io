@@ -11,11 +11,13 @@ export class Friends {
             name: "Burg",
             url: "https://burgburg.net/",
             img: "https://burgburg.net/burgbutton.png",
+            mouseEffectColor: "#de8da3",
         },
         {
             name: "Swift",
             url: "https://swiftersweeper.nekoweb.org/",
             img: "https://swiftersweeper.nekoweb.org/swiftbutton.png",
+            mouseEffectColor: "#6c85b9",
         },
     ];
 }

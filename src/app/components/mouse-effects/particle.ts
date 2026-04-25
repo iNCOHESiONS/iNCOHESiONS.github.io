@@ -1,4 +1,4 @@
-import { Point } from "../../utils";
+import { Color, Point } from "../../utils";
 
 const gravity = Point.down.mul(0.1);
 const minSize = Point.splat(5);
@@ -9,9 +9,9 @@ export class Particle {
         public pos: Point,
         public vel: Point = Point.zero,
         public acc: Point = Point.random().scale(new Point(1.5, -2.5)),
+        public color = Color.white,
+        public size = minSize.add(Point.random().mul(5)),
         private lifetime = initialLifetime,
-        private color = [255, Math.random() * 128, Math.random() * 255],
-        private size = minSize.add(Point.random().mul(5)),
     ) {}
 
     update() {
@@ -32,7 +32,10 @@ export class Particle {
 
         ctx.rotate(this.vel.heading());
 
-        ctx.fillStyle = `rgb(${this.color.join(",")}, ${this.lifetime / initialLifetime})`;
+        ctx.fillStyle = this.color
+            .withA(this.lifetime / initialLifetime)
+            .toCSSColor();
+
         ctx.fillRect(
             -this.size.x / 2,
             -this.size.y / 2,
