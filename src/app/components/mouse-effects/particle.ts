@@ -5,13 +5,14 @@ const minSize = Point.splat(5);
 const initialLifetime = 100;
 
 export class Particle {
+    private lifetime = initialLifetime;
+
     constructor(
         public pos: Point,
         public vel: Point = Point.zero,
         public acc: Point = Point.random().scale(new Point(1.5, -2.5)),
         public color = Color.white,
         public size = minSize.add(Point.random().mul(5)),
-        private lifetime = initialLifetime,
     ) {}
 
     update() {
