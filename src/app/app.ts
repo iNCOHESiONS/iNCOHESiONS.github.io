@@ -2,6 +2,7 @@ import { isPlatformBrowser } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { Component, inject, PLATFORM_ID, signal } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
+import { AnimatedBackgroundComponent } from "./components/animated-background/animated-background";
 import { MouseEffects } from "./components/mouse-effects/mouse-effects";
 import { Friends } from "./components/profile/friends/friends";
 import { Languages } from "./components/profile/languages/languages";
@@ -23,6 +24,7 @@ import { choice, isMobile } from "./utils";
         Friends,
         Languages,
         ProfilePicture,
+        AnimatedBackgroundComponent,
     ],
 })
 export class App {

@@ -271,6 +271,22 @@ export class Color {
     }
 }
 
+export function drawCircle(
+    ctx: CanvasRenderingContext2D,
+    pos: Point,
+    size: number,
+    color: string,
+) {
+    ctx.beginPath();
+
+    ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
+
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.closePath();
+}
+
 export function clamp(v: number, min: number, max: number) {
     return Math.min(max, Math.max(min, v));
 }
@@ -285,8 +301,17 @@ export function lerp(a: number, b: number, t: number) {
     return a * (1 - t) + b * t;
 }
 
-export function random(min: number = 0, max: number = 1) {
+export function random(min: number, max: number | undefined = undefined) {
+    if (max === undefined) {
+        max = min;
+        min = 0;
+    }
+
     return Math.random() * (max - min) + min;
+}
+
+export function randint(min: number, max: number | undefined = undefined) {
+    return Math.round(random(min, max));
 }
 
 export function isMobile() {
