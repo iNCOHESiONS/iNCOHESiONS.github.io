@@ -1,11 +1,11 @@
 import { isPlatformBrowser } from "@angular/common";
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
     inject,
-    Input,
     OnDestroy,
     PLATFORM_ID,
     signal,
@@ -25,28 +25,27 @@ const defaultZoom = 5.25;
             #container
         ></div>
     `,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinningFish implements AfterViewInit, OnDestroy {
     @ViewChild("container", { static: true })
-    containerRef!: ElementRef<HTMLDivElement>;
-
-    @Input() width = 400;
-    @Input() height = 200;
+    protected containerRef!: ElementRef<HTMLDivElement>;
 
     private platformId = inject(PLATFORM_ID);
+
+    protected controlling = signal(false);
+
+    private width = 400;
+    private height = 200;
+
+    private mouseVel = Point.zero;
+    private targetZoom = defaultZoom;
 
     private cleanup = () => {};
     private animationId = 0;
 
-    private mouseVel = Point.zero;
-    protected controlling = signal(false);
-
-    private targetZoom = defaultZoom;
-
     async ngAfterViewInit() {
         if (!isPlatformBrowser(this.platformId)) return;
-
-        const THREE = await import("three");
 
         const WebGL = (await import("three/addons/capabilities/WebGL.js"))
             .default;
@@ -55,8 +54,7 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
             throw new Error("WebGL 2 not available");
         }
 
-        const { GLTFLoader } =
-            await import("three/examples/jsm/loaders/GLTFLoader.js");
+        const THREE = await import("three");
 
         const scene = new THREE.Scene();
 
@@ -88,6 +86,9 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
 
         renderer.setClearColor(0, 0);
         renderer.setSize(this.width, this.height, true);
+
+        const { GLTFLoader } =
+            await import("three/examples/jsm/loaders/GLTFLoader.js");
 
         const fish = await new Promise<THREE.Group>((resolve, reject) =>
             new GLTFLoader().load(
@@ -122,7 +123,10 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
             this.mouseVel = this.mouseVel.mul(0);
             renderer.render(scene, camera);
 
-            const nextZoom = lerp(camera.zoom, this.targetZoom, 0.1);
+            const nextZoom =
+                Math.abs(camera.zoom - this.targetZoom) > 0.1
+                    ? lerp(camera.zoom, this.targetZoom, 0.1)
+                    : this.targetZoom;
 
             if (camera.zoom !== nextZoom) {
                 camera.zoom = nextZoom;

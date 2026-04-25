@@ -13,12 +13,18 @@
     --invert-icon: 0;
 
     font-family: "Inconsolata", monospace;
-    font-size: 22pt;
+    font-size: 16pt;
 
     outline-color: var(--text-color);
 
     -webkit-user-drag: none;
     user-drag: none; /* future-proof */
+}
+
+@media screen and (max-width: 768px) {
+    * {
+        font-size: 14pt;
+    }
 }
 
 @media (prefers-color-scheme: dark) {

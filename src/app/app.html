@@ -5,7 +5,56 @@
 <main
     class="flex flex-col p-10 md:p-20 items-center justify-center overflow-auto overflow-x-hidden"
 >
-    <profile />
+    <div class="flex flex-1 flex-wrap min-w-0 gap-4">
+        <div class="flex flex-wrap flex-row justify-center gap-4">
+            <div class="flex flex-wrap gap-4">
+                <div class="flex flex-col gap-4">
+                    @defer {
+                        <profile-picture [splash]="splash()" />
+                    }
+
+                    <div class="flex md:flex-col gap-4">
+                        <links />
+                        <friends />
+                    </div>
+                </div>
+
+                <div>
+                    <h1>iNCOHESiONS (mari/cohe)</h1>
+
+                    <ul class="pl-2">
+                        <li>Programmer (mostly Web Development)</li>
+                        <li>Employed (surprisingly)</li>
+                        <li>Transgender</li>
+                        <li>Brazilian</li>
+                        <li>Bisexual</li>
+                        <li>Bilingual (pt-br/en)</li>
+                        <li>Bipedal</li>
+                    </ul>
+
+                    @if (!isMobile()) {
+                        @defer {
+                            <spinning-fish />
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-4">
+                @defer {
+                    <projects />
+                }
+
+                <languages />
+            </div>
+        </div>
+
+        @if (isMobile()) {
+            @defer {
+                <spinning-fish />
+            }
+        }
+    </div>
 </main>
 
 <router-outlet />

@@ -1,17 +1,45 @@
 import { isPlatformBrowser } from "@angular/common";
-import { Component, Inject, PLATFORM_ID } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Component, inject, PLATFORM_ID, signal } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { MouseEffects } from "./components/mouse-effects/mouse-effects";
-import { Profile } from "./components/profile/profile";
-import { isMobile } from "./utils";
+import { Friends } from "./components/profile/friends/friends";
+import { Languages } from "./components/profile/languages/languages";
+import { Links } from "./components/profile/links/links";
+import { ProfilePicture } from "./components/profile/profile-picture/profile-picture";
+import { Projects } from "./components/profile/projects/projects";
+import { SpinningFish } from "./components/spinning-fish/spinning-fish";
+import { choice, isMobile } from "./utils";
 
 @Component({
     selector: "app",
     templateUrl: "./app.html",
-    imports: [RouterOutlet, Profile, MouseEffects],
+    imports: [
+        RouterOutlet,
+        MouseEffects,
+        SpinningFish,
+        Projects,
+        Links,
+        Friends,
+        Languages,
+        ProfilePicture,
+    ],
 })
 export class App {
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+    platformId = inject(PLATFORM_ID);
+    http = inject(HttpClient);
+
+    splash = signal("");
+
+    ngOnInit() {
+        if (!isPlatformBrowser(this.platformId)) return;
+
+        this.http
+            .get("./text/splashes.txt", { responseType: "text" })
+            .subscribe((data) =>
+                this.splash.update(() => choice(data.split("\n"))),
+            );
+    }
 
     isMobile() {
         return !isPlatformBrowser(this.platformId) || isMobile();

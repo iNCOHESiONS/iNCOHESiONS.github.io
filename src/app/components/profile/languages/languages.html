@@ -1,17 +1,15 @@
 <div class="flex flex-col md:flex-row">
     <div>
-        <h1 class="mb-2">Languages</h1>
+        <h1>Languages</h1>
 
         <ul class="pl-2">
             @for (lang of languages; track lang.id) {
                 <li>
                     <div class="flex gap-2 items-center">
-                        <img
+                        <icon
                             [src]="getLanguageLogo(lang.id)"
                             [alt]="lang.name"
-                            [attr.style]="
-                                lang.filter ? `filter: ${lang.filter}` : null
-                            "
+                            [invertInDarkMode]="lang.invertInDarkMode ?? false"
                             class="h-4 aspect-square"
                         />
 

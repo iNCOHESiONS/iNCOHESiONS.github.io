@@ -41,7 +41,7 @@ export class Point {
     }
 
     sub(other: Point) {
-        return this.add(other.neg());
+        return new Point(this.x - other.x, this.y - other.y);
     }
 
     mul(scalar: number) {
@@ -126,4 +126,8 @@ export function isMobile() {
 
 export function choice<T>(choices: T[]) {
     return choices[Math.floor(Math.random() * choices.length)];
+}
+
+export function getLanguageLogo(id: string) {
+    return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${id}/${id}-original.svg`;
 }

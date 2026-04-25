@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { getLanguageLogo } from "../../../utils";
+import { Icon } from "../../icon/icon";
 
 @Component({
     selector: "languages",
     templateUrl: "./languages.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [Icon],
 })
 export class Languages {
-    languages: {
-        name: string;
-        id: string;
-        filter?: string;
-    }[] = [
+    protected readonly languages = [
         { name: "Python", id: "python" },
         { name: "C++", id: "cplusplus" },
         { name: "C#", id: "csharp" },
@@ -20,12 +20,10 @@ export class Languages {
         {
             name: "Rust",
             id: "rust",
-            filter: "invert(var(--invert-icon))",
+            invertInDarkMode: true,
         },
         { name: "Go", id: "go" },
     ];
 
-    getLanguageLogo(id: string) {
-        return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${id}/${id}-original.svg`;
-    }
+    getLanguageLogo = getLanguageLogo;
 }
