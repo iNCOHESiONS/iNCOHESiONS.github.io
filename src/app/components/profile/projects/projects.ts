@@ -30,8 +30,13 @@ export class Projects implements OnInit {
                 responseType: "json",
             })
             .subscribe((data: any) =>
-                this.githubProjects.update(() =>
-                    data.filter((proj: any) => proj.language !== null),
+                this.githubProjects.update(
+                    () =>
+                        (data as Project[])
+                            .filter((proj) => proj.language !== null)
+                            .sort((a, b) =>
+                                a.language!.localeCompare(b.language!),
+                            ) as any,
                 ),
             );
     }
