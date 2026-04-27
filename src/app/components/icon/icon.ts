@@ -3,25 +3,25 @@ import {
     ChangeDetectionStrategy,
     Component,
     inject,
-    Input,
+    input,
     PLATFORM_ID,
 } from "@angular/core";
 
 @Component({
     selector: "icon",
     template: `<img
-        [src]="src"
-        [alt]="alt"
-        [class.invert]="prefersDarkMode && invertInDarkMode"
+        [src]="src()"
+        [alt]="alt()"
+        [class.invert]="prefersDarkMode && invertInDarkMode()"
     />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Icon {
     platformId = inject(PLATFORM_ID);
 
-    @Input() src!: string;
-    @Input() alt!: string;
-    @Input() invertInDarkMode: boolean = false;
+    src = input.required<string>();
+    alt = input.required<string>();
+    invertInDarkMode = input(false);
 
     protected prefersDarkMode = false;
 
