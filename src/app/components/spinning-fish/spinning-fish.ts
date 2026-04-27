@@ -83,7 +83,7 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
         const canvas = renderer.domElement;
 
         canvas.onmousedown = () => {
-            this.controlling.update(() => true);
+            this.controlling.set(true);
             soundEffect.play();
         };
 
@@ -163,7 +163,7 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
 
     @HostListener("window:mouseup")
     onMouseUp() {
-        this.controlling.update(() => false);
+        this.controlling.set(false);
     }
 
     /* from: https://discourse.threejs.org/t/disposing-loaded-model/53735 */

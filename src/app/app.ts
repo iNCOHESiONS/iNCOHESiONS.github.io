@@ -38,9 +38,7 @@ export class App {
 
         this.http
             .get("./text/splashes.txt", { responseType: "text" })
-            .subscribe((data) =>
-                this.splash.update(() => choice(data.split("\n"))),
-            );
+            .subscribe((data) => this.splash.set(choice(data.split("\n"))));
     }
 
     isMobile() {
