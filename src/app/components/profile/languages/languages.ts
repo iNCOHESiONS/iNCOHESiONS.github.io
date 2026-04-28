@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { getLanguageLogo } from "../../../utils";
-import { Icon } from "../../icon/icon";
 
 @Component({
     selector: "languages",
     templateUrl: "./languages.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [Icon],
 })
 export class Languages {
     protected readonly languages = [
@@ -20,7 +18,7 @@ export class Languages {
         {
             name: "Rust",
             id: "rust",
-            invertInDarkMode: true,
+            invert: true,
         },
         { name: "Go", id: "go" },
     ];

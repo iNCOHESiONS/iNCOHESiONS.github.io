@@ -9,10 +9,10 @@
                     target="_blank"
                     class="flex gap-2 items-center"
                 >
-                    <icon
+                    <img
                         [src]="link.favicon"
                         [alt]="link.name"
-                        [invertInDarkMode]="link.invertInDarkMode ?? false"
+                        [class.invert]="link.invert"
                         class="h-4 aspect-square object-scale-down"
                     />
                     <span>{{ link.name }}</span>

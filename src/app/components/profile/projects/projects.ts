@@ -17,10 +17,12 @@ import { getLanguageLogo } from "../../../utils";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Projects implements OnInit {
-    githubProjects = signal<(Project & { language: string })[]>([]);
+    protected readonly githubProjects = signal<
+        (Project & { language: string })[]
+    >([]);
 
-    platformId = inject(PLATFORM_ID);
-    http = inject(HttpClient);
+    private readonly platformId = inject(PLATFORM_ID);
+    private readonly http = inject(HttpClient);
 
     ngOnInit() {
         if (!isPlatformBrowser(this.platformId)) return;

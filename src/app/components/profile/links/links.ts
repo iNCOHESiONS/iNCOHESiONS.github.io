@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { Icon } from "../../icon/icon";
 
 @Component({
     selector: "links",
     templateUrl: "./links.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [Icon],
 })
 export class Links {
     protected readonly links = [
@@ -13,7 +11,7 @@ export class Links {
             url: "https://github.com/incohesions",
             favicon: "https://github.com/favicon.ico",
             name: "@iNCOHESiONS",
-            invertInDarkMode: true,
+            invert: true,
         },
         {
             url: "https://x.com/noinconsistency",

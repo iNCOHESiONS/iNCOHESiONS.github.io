@@ -29,7 +29,7 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
 
     private canvas!: HTMLCanvasElement;
 
-    private platformId = inject(PLATFORM_ID);
+    private readonly platformId = inject(PLATFORM_ID);
 
     private mousePos?: Point = undefined;
     private mousePressed = false;

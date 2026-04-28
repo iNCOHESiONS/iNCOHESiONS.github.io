@@ -2,7 +2,7 @@ import { Color, drawCircle, lerp, Point, randint, random } from "../../utils";
 
 export class Meteor {
     private trail: Point[] = [];
-    private trailLength = randint(15, 30);
+    private readonly trailLength = randint(15, 30);
 
     constructor(
         public pos = new Point(random(window.innerWidth), 0),

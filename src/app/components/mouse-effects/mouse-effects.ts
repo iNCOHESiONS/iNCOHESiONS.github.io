@@ -29,7 +29,7 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
 
     protected canvas!: HTMLCanvasElement;
 
-    private platformId = inject(PLATFORM_ID);
+    private readonly platformId = inject(PLATFORM_ID);
 
     private particles: Particle[] = [];
 

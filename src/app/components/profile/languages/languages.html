@@ -6,10 +6,10 @@
             @for (lang of languages; track lang.id) {
                 <li>
                     <div class="flex gap-2 items-center">
-                        <icon
+                        <img
                             [src]="getLanguageLogo(lang.id)"
                             [alt]="lang.name"
-                            [invertInDarkMode]="lang.invertInDarkMode ?? false"
+                            [class.invert]="lang.invert"
                             class="h-4 aspect-square"
                         />
 
