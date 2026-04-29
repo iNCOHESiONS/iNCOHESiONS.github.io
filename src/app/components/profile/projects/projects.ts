@@ -9,10 +9,11 @@ import {
     signal,
 } from "@angular/core";
 import { Project } from "../../../types";
-import { getLanguageLogo } from "../../../utils";
+import { ProgrammingLanguageIcon } from "../../programming-language-icon/programming-language-icon";
 
 @Component({
     selector: "projects",
+    imports: [ProgrammingLanguageIcon],
     templateUrl: "./projects.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -41,6 +42,4 @@ export class Projects implements OnInit {
                 ),
             );
     }
-
-    getLanguageLogo = getLanguageLogo;
 }

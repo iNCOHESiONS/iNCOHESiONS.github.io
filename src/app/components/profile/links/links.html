@@ -5,15 +5,17 @@
         @for (link of links; track link.name) {
             <li>
                 <a
-                    [href]="link.url"
                     target="_blank"
                     class="flex gap-2 items-center"
+                    [href]="link.url"
                 >
                     <img
-                        [src]="link.favicon"
+                        width="20"
+                        height="20"
+                        class="h-4 aspect-square object-scale-down"
+                        [ngSrc]="link.favicon"
                         [alt]="link.name"
                         [class.invert]="link.invert"
-                        class="h-4 aspect-square object-scale-down"
                     />
                     <span>{{ link.name }}</span>
                 </a>

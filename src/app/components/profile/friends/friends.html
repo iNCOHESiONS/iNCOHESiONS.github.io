@@ -4,12 +4,14 @@
     <ul>
         @for (friend of friends; track friend.name) {
             <li>
-                <a [href]="friend.url" target="_blank" class="inline-block">
+                <a target="_blank" class="inline-block" [href]="friend.url">
                     <img
-                        [src]="friend.img"
+                        class="block"
+                        width="88"
+                        height="31"
+                        [ngSrc]="friend.img"
                         [alt]="friend.name"
                         [attr.mouse-effect-color]="friend.mouseEffectColor"
-                        class="block"
                     />
                 </a>
             </li>

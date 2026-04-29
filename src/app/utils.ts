@@ -323,7 +323,3 @@ export function isMobile() {
 export function choice<T>(choices: T[]) {
     return choices[Math.floor(Math.random() * choices.length)];
 }
-
-export function getLanguageLogo(id: string) {
-    return `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${id}/${id}-original.svg`;
-}

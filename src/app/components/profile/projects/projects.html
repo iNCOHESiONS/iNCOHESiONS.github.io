@@ -5,11 +5,7 @@
         @for (proj of githubProjects(); track proj.name) {
             <li>
                 <div class="flex gap-2 items-center">
-                    <img
-                        [src]="getLanguageLogo(proj.language.toLowerCase())"
-                        [alt]="proj.language"
-                        class="h-4 aspect-square"
-                    />
+                    <programming-language-icon [id]="proj.language" />
 
                     <a
                         href="https://github.com/incohesions/{{ proj.name }}"

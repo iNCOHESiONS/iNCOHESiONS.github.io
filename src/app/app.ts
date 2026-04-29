@@ -1,6 +1,13 @@
 import { isPlatformBrowser } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { Component, inject, PLATFORM_ID, signal } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    OnInit,
+    PLATFORM_ID,
+    signal,
+} from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { AnimatedBackgroundComponent } from "./components/animated-background/animated-background";
 import { MouseEffects } from "./components/mouse-effects/mouse-effects";
@@ -14,7 +21,6 @@ import { choice, isMobile } from "./utils";
 
 @Component({
     selector: "app",
-    templateUrl: "./app.html",
     imports: [
         RouterOutlet,
         MouseEffects,
@@ -26,12 +32,14 @@ import { choice, isMobile } from "./utils";
         ProfilePicture,
         AnimatedBackgroundComponent,
     ],
+    templateUrl: "./app.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
-    platformId = inject(PLATFORM_ID);
-    http = inject(HttpClient);
+export class App implements OnInit {
+    protected readonly splash = signal("");
 
-    splash = signal("");
+    private readonly platformId = inject(PLATFORM_ID);
+    private readonly http = inject(HttpClient);
 
     ngOnInit() {
         if (!isPlatformBrowser(this.platformId)) return;

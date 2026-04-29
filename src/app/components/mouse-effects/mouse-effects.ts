@@ -4,29 +4,27 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
-    HostListener,
     inject,
     OnDestroy,
     PLATFORM_ID,
-    ViewChild,
+    viewChild,
 } from "@angular/core";
 import { Color, Point, random } from "../../utils";
 import { Particle } from "./particle";
 
 @Component({
     selector: "mouse-effects",
-    template: `
-        <canvas
-            class="fixed top-0 bottom-0 h-full pointer-events-none z-10"
-            #canvas
-        ></canvas>
-    `,
+    templateUrl: "./mouse-effects.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(window:mousemove)": "onMouseMove($event)",
+        "(window:mouseover)": "onMouseOver($event.target)",
+        "(window:resize)": "onWindowResize()",
+    },
 })
 export class MouseEffects implements AfterViewInit, OnDestroy {
-    @ViewChild("canvas", { static: true })
-    protected canvasRef!: ElementRef<HTMLCanvasElement>;
-
+    protected readonly canvasRef =
+        viewChild.required<ElementRef<HTMLCanvasElement>>("canvas");
     protected canvas!: HTMLCanvasElement;
 
     private readonly platformId = inject(PLATFORM_ID);
@@ -43,7 +41,7 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
     async ngAfterViewInit() {
         if (!isPlatformBrowser(this.platformId)) return;
 
-        this.canvas = this.canvasRef.nativeElement;
+        this.canvas = this.canvasRef().nativeElement;
         this.updateCanvasSize();
 
         const context = this.canvas.getContext("2d");
@@ -90,12 +88,10 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
         this.cleanup();
     }
 
-    @HostListener("window:mousemove", ["$event"])
     onMouseMove(event: MouseEvent) {
         this.mousePos = new Point(event.clientX, event.clientY);
     }
 
-    @HostListener("window:mouseover", ["$event.target"])
     onMouseOver(target: EventTarget | null) {
         if (!target) return;
 
@@ -111,7 +107,6 @@ export class MouseEffects implements AfterViewInit, OnDestroy {
         this.particleColor = color ? Color.fromHex(color) : undefined;
     }
 
-    @HostListener("window:resize")
     onWindowResize() {
         this.updateCanvasSize();
     }

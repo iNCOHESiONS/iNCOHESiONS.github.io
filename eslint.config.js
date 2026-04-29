@@ -2,7 +2,7 @@
 
 import angular from "@angular-eslint/eslint-plugin";
 import angularTemplate from "@angular-eslint/eslint-plugin-template";
-import templateParser from "@angular-eslint/template-parser";
+import angularTemplateParser from "@angular-eslint/template-parser";
 import tsParser from "@typescript-eslint/parser";
 
 export default [
@@ -11,26 +11,33 @@ export default [
         languageOptions: {
             parser: tsParser,
             parserOptions: {
-                project: "./tsconfig.json",
+                project: "./tsconfig.app.json",
             },
         },
         plugins: {
             "@angular-eslint": angular,
-            "@angular-eslint/template": angularTemplate,
         },
-        // @ts-expect-error
-        processor: angularTemplate.processors[".inline-template"],
+        processor: angularTemplate.processors["extract-inline-html"],
+        rules: {
+            ...angular.configs.all.rules,
+            "@angular-eslint/component-class-suffix": "off",
+            "@angular-eslint/no-async-lifecycle-method": "off",
+        },
     },
     {
         files: ["**/*.html"],
         languageOptions: {
-            parser: templateParser,
+            parser: angularTemplateParser,
         },
         plugins: {
             "@angular-eslint/template": angularTemplate,
         },
         rules: {
-            "@angular-eslint/template/prefer-self-closing-tags": ["error"],
+            ...angularTemplate.configs.all.rules,
+            "@angular-eslint/template/prefer-self-closing-tags": "error",
+            "@angular-eslint/template/no-call-expression": "off",
+            "@angular-eslint/template/i18n": "off",
+            "@angular-eslint/template/no-interpolation-in-attributes": "off",
         },
     },
 ];

@@ -1,7 +1,9 @@
+import { NgOptimizedImage } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 @Component({
     selector: "friends",
+    imports: [NgOptimizedImage],
     templateUrl: "./friends.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

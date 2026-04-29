@@ -6,11 +6,9 @@
             @for (lang of languages; track lang.id) {
                 <li>
                     <div class="flex gap-2 items-center">
-                        <img
-                            [src]="getLanguageLogo(lang.id)"
-                            [alt]="lang.name"
+                        <programming-language-icon
+                            [id]="lang.id"
                             [class.invert]="lang.invert"
-                            class="h-4 aspect-square"
                         />
 
                         <p>{{ lang.name }}</p>

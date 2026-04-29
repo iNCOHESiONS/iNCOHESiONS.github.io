@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { getLanguageLogo } from "../../../utils";
+import { ProgrammingLanguageIcon } from "../../programming-language-icon/programming-language-icon";
 
 @Component({
     selector: "languages",
+    imports: [ProgrammingLanguageIcon],
     templateUrl: "./languages.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,6 +23,4 @@ export class Languages {
         },
         { name: "Go", id: "go" },
     ];
-
-    getLanguageLogo = getLanguageLogo;
 }

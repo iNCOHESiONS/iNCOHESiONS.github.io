@@ -1,13 +1,13 @@
 import { isPlatformBrowser } from "@angular/common";
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
-    HostListener,
     inject,
     OnDestroy,
     PLATFORM_ID,
-    ViewChild,
+    viewChild,
 } from "@angular/core";
 import { Point } from "../../utils";
 import { Meteor } from "./meteor";
@@ -15,17 +15,18 @@ import { Star } from "./star";
 
 @Component({
     selector: "animated-background",
-    template: `
-        <canvas
-            class="fixed top-0 left-0 w-screen h-screen -z-10 brightness-150"
-            style="filter: blur(2px)"
-            #canvas
-        ></canvas>
-    `,
+    templateUrl: "./animated-background.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(window:mousemove)": "onMouseMove($event)",
+        "(window:mousedown)": "onMouseDown()",
+        "(window:mouseup)": "onMouseUp()",
+        "(window:resize)": "onWindowResize()",
+    },
 })
 export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
-    @ViewChild("canvas", { static: true })
-    protected canvasRef!: ElementRef<HTMLCanvasElement>;
+    protected readonly canvasRef =
+        viewChild.required<ElementRef<HTMLCanvasElement>>("canvas");
 
     private canvas!: HTMLCanvasElement;
 
@@ -40,7 +41,7 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         if (!isPlatformBrowser(this.platformId)) return;
 
-        this.canvas = this.canvasRef.nativeElement;
+        this.canvas = this.canvasRef().nativeElement;
         this.updateCanvasSize();
 
         const context = this.canvas.getContext("2d", { alpha: true });
@@ -111,22 +112,18 @@ export class AnimatedBackgroundComponent implements AfterViewInit, OnDestroy {
         this.cleanup();
     }
 
-    @HostListener("window:mousemove", ["$event"])
     onMouseMove(event: MouseEvent) {
         this.mousePos = new Point(event.clientX, event.clientY);
     }
 
-    @HostListener("window:mousedown")
     onMouseDown() {
         this.mousePressed = true;
     }
 
-    @HostListener("window:mouseup")
     onMouseUp() {
         this.mousePressed = false;
     }
 
-    @HostListener("window:resize")
     onWindowResize() {
         this.updateCanvasSize();
     }

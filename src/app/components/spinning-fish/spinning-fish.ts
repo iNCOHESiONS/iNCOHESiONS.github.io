@@ -4,39 +4,35 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
-    HostListener,
     inject,
     OnDestroy,
     PLATFORM_ID,
     signal,
-    ViewChild,
+    viewChild,
 } from "@angular/core";
 import type * as THREE from "three";
 import { lerp, Point } from "../../utils";
 
+const width = 400;
+const height = 200;
 const defaultZoom = 5.25;
 
 @Component({
     selector: "spinning-fish",
-    template: `
-        <div
-            title="Model and texture by umar6419 at https://free3d.com/3d-model/tuna-fish-21843.html"
-            [class]="controlling() ? 'cursor-grabbing' : 'cursor-grab'"
-            #container
-        ></div>
-    `,
+    templateUrl: "./spinning-fish.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(window:mousemove)": "onMouseMove($event)",
+        "(window:mouseup)": "onMouseUp()",
+    },
 })
 export class SpinningFish implements AfterViewInit, OnDestroy {
-    @ViewChild("container", { static: true })
-    protected containerRef!: ElementRef<HTMLDivElement>;
+    protected readonly containerRef =
+        viewChild.required<ElementRef<HTMLDivElement>>("container");
+
+    protected readonly controlling = signal(false);
 
     private platformId = inject(PLATFORM_ID);
-
-    protected controlling = signal(false);
-
-    private width = 400;
-    private height = 200;
 
     private mouseVel = Point.zero;
     private targetZoom = defaultZoom;
@@ -58,12 +54,7 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
 
         const scene = new THREE.Scene();
 
-        const camera = new THREE.PerspectiveCamera(
-            75,
-            this.width / this.height,
-            0.1,
-            30,
-        );
+        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 30);
         camera.position.z = 3;
         camera.zoom = this.targetZoom;
         camera.updateProjectionMatrix();
@@ -87,10 +78,10 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
             soundEffect.play();
         };
 
-        this.containerRef.nativeElement.appendChild(canvas);
+        this.containerRef().nativeElement.appendChild(canvas);
 
         renderer.setClearColor(0, 0);
-        renderer.setSize(this.width, this.height, true);
+        renderer.setSize(width, height, true);
 
         const { GLTFLoader } =
             await import("three/examples/jsm/loaders/GLTFLoader.js");
@@ -156,12 +147,10 @@ export class SpinningFish implements AfterViewInit, OnDestroy {
         this.cleanup();
     }
 
-    @HostListener("window:mousemove", ["$event"])
     onMouseMove(event: MouseEvent) {
         this.mouseVel = new Point(event.movementX, event.movementY);
     }
 
-    @HostListener("window:mouseup")
     onMouseUp() {
         this.controlling.set(false);
     }
